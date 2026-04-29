@@ -1,0 +1,17 @@
+{
+  "name": "disasterscope",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Multimodal Disaster Management Web Application with AI-powered analytics.",
+  "workspaces": [
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm --workspace apps/web run dev",
+    "build": "npm --workspace apps/web run build",
+    "lint": "npm --workspace apps/web run lint"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

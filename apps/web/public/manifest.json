@@ -1,0 +1,10 @@
+{
+  "name": "DisasterScope",
+  "short_name": "DisasterScope",
+  "description": "AI-powered disaster management operations platform.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#081014",
+  "theme_color": "#50e3d6",
+  "icons": []
+}
