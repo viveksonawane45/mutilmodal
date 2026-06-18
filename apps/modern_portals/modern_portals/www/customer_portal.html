@@ -1,0 +1,27 @@
+{% extends "templates/web.html" %}
+
+{% block title %}{{ _("Customer Portal") }}{% endblock %}
+
+{% block page_content %}
+<div class="mp-shell mp-customer" data-modern-portal data-portal-type="customer" data-initial-view="{{ initial_view or 'dashboard' }}">
+    {% include "modern_portals/templates/includes/portal_sidebar.html" %}
+    <main class="mp-main">
+        {% include "modern_portals/templates/includes/portal_navbar.html" %}
+        <section class="mp-content">
+            <div class="mp-view-header">
+                <div>
+                    <p class="mp-kicker">{{ _("Customer Workspace") }}</p>
+                    <h1 data-page-title>{{ _("Dashboard") }}</h1>
+                </div>
+                <div class="mp-header-actions">
+                    <button class="mp-icon-btn" data-refresh aria-label="{{ _('Refresh') }}" title="{{ _('Refresh') }}">
+                        <span aria-hidden="true">R</span>
+                    </button>
+                </div>
+            </div>
+            <div data-portal-alert class="mp-alert" hidden></div>
+            <div data-view-container class="mp-view-container"></div>
+        </section>
+    </main>
+</div>
+{% endblock %}

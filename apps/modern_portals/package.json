@@ -1,0 +1,14 @@
+{
+  "name": "modern_portals",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Modern ERPNext customer and supplier portals",
+  "scripts": {
+    "build:css": "tailwindcss -i ./modern_portals/public/css/source.css -o ./modern_portals/public/css/tailwind.css --minify",
+    "watch:css": "tailwindcss -i ./modern_portals/public/css/source.css -o ./modern_portals/public/css/tailwind.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
+

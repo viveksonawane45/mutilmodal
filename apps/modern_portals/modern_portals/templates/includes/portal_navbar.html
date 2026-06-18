@@ -1,0 +1,13 @@
+<header class="mp-navbar">
+    <button class="mp-icon-btn mp-menu-toggle" data-menu-toggle aria-label="{{ _('Open navigation') }}" title="{{ _('Open navigation') }}">
+        <span aria-hidden="true">M</span>
+    </button>
+    <div class="mp-nav-brand">
+        <span class="mp-brand-mark"></span>
+        <span>{{ _("Modern Portals") }}</span>
+    </div>
+    <div class="mp-nav-user">
+        <span data-user-name>{{ frappe.session.user }}</span>
+        <a class="mp-ghost-link" href="/me">{{ _("Account") }}</a>
+    </div>
+</header>

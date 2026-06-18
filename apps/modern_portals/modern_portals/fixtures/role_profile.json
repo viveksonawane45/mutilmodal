@@ -1,0 +1,24 @@
+[
+  {
+    "doctype": "Role Profile",
+    "name": "Modern Portal Customer",
+    "role_profile": "Modern Portal Customer",
+    "roles": [
+      {
+        "doctype": "Has Role",
+        "role": "Customer"
+      }
+    ]
+  },
+  {
+    "doctype": "Role Profile",
+    "name": "Modern Portal Supplier",
+    "role_profile": "Modern Portal Supplier",
+    "roles": [
+      {
+        "doctype": "Has Role",
+        "role": "Supplier"
+      }
+    ]
+  }
+]

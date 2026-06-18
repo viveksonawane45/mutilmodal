@@ -1,0 +1,47 @@
+<aside class="mp-sidebar" data-sidebar>
+    <div class="mp-sidebar-head">
+        <span class="mp-brand-mark"></span>
+        <div>
+            <strong>{{ _("Modern Portals") }}</strong>
+            <small>{{ _("Customer") if portal_type == "customer" else _("Supplier") }}</small>
+        </div>
+    </div>
+    <nav class="mp-nav-list" aria-label="{{ _('Portal navigation') }}">
+        <button data-view="dashboard" class="mp-nav-item is-active">
+            <span aria-hidden="true">H</span>
+            <span>{{ _("Dashboard") }}</span>
+        </button>
+        {% if portal_type == "customer" %}
+        <button data-view="orders" class="mp-nav-item">
+            <span aria-hidden="true">O</span>
+            <span>{{ _("Orders") }}</span>
+        </button>
+        <button data-view="invoices" class="mp-nav-item">
+            <span aria-hidden="true">I</span>
+            <span>{{ _("Invoices") }}</span>
+        </button>
+        <button data-view="shipments" class="mp-nav-item">
+            <span aria-hidden="true">S</span>
+            <span>{{ _("Shipments") }}</span>
+        </button>
+        {% else %}
+        <button data-view="rfqs" class="mp-nav-item">
+            <span aria-hidden="true">R</span>
+            <span>{{ _("RFQs") }}</span>
+        </button>
+        <button data-view="purchase-orders" class="mp-nav-item">
+            <span aria-hidden="true">P</span>
+            <span>{{ _("Purchase Orders") }}</span>
+        </button>
+        <button data-view="invoices" class="mp-nav-item">
+            <span aria-hidden="true">I</span>
+            <span>{{ _("Invoices") }}</span>
+        </button>
+        {% endif %}
+    </nav>
+    <div class="mp-sidebar-foot">
+        <a href="/me">{{ _("My Account") }}</a>
+        <a href="/?cmd=web_logout">{{ _("Sign Out") }}</a>
+    </div>
+</aside>
+<div class="mp-sidebar-scrim" data-sidebar-scrim></div>

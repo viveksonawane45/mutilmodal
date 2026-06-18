@@ -1,0 +1,9 @@
+include README.md
+recursive-include modern_portals *.css
+recursive-include modern_portals *.html
+recursive-include modern_portals *.js
+recursive-include modern_portals *.json
+recursive-include modern_portals *.md
+recursive-include modern_portals *.py
+recursive-include modern_portals *.svg
+recursive-include modern_portals *.txt
