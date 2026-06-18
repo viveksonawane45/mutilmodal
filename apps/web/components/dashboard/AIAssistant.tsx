@@ -109,7 +109,8 @@ function AssistantPanel({
   onDraftChange,
   onSubmit,
   onPreset,
-  compact = false
+  compact = false,
+  onNavigate
 }: {
   messages: ChatMessage[];
   draft: string;
