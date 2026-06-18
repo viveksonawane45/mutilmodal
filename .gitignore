@@ -17,3 +17,5 @@ coverage/
 *.log
 mysql_data/
 redis_data/
+
+.vercel
