@@ -99,7 +99,7 @@ export function DisasterMap({ territory = "All", onSelectProject }: { territory?
   }, [territory]);
 
   return (
-    <div className="h-[440px] overflow-hidden rounded-lg border border-white/10">
+    <div className="h-[300px] md:h-[440px] overflow-hidden rounded-lg border border-white/10">
       <div ref={containerRef} className="h-full w-full" />
     </div>
   );

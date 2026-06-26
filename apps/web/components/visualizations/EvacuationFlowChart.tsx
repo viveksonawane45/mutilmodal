@@ -16,7 +16,7 @@ export function EvacuationFlowChart({ model }: { model: string }) {
   return (
     <div className="glass rounded-lg p-5">
       <h3 className="mb-4 text-sm font-semibold text-coral">Evacuation Flow vs Capacity</h3>
-      <div className="h-56 w-full">
+      <div className="h-40 md:h-56 w-full">
         <ResponsiveContainer>
           <LineChart data={data} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
             <CartesianGrid stroke="rgba(238,248,247,0.05)" strokeDasharray="3 3" vertical={false} />

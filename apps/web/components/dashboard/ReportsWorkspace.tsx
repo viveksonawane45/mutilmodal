@@ -34,7 +34,7 @@ export function ReportsWorkspace({ onNotify }: { onNotify?: (message: string) =>
             Generate
           </button>
         </div>
-        <div className="min-h-96 rounded-lg border border-white/10 bg-black/20 p-5">
+        <div className="min-h-48 md:min-h-96 rounded-lg border border-white/10 bg-black/20 p-4 md:p-5">
           <div className="mb-4 flex items-center gap-2 text-slate-300">
             <PenLine size={18} className="text-cyan" />
             <span className="text-sm">Collaborative editor</span>
@@ -47,7 +47,7 @@ export function ReportsWorkspace({ onNotify }: { onNotify?: (message: string) =>
           <textarea
             value={body}
             onChange={(event) => setBody(event.target.value)}
-            className="mt-4 min-h-72 w-full resize-y rounded-lg border border-white/10 bg-white/[0.055] p-4 leading-7 text-slate-300 outline-none focus:border-cyan/50"
+            className="mt-4 min-h-40 md:min-h-72 w-full resize-y rounded-lg border border-white/10 bg-white/[0.055] p-3 md:p-4 leading-7 text-slate-300 outline-none focus:border-cyan/50"
           />
         </div>
       </div>

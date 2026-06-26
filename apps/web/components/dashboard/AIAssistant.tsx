@@ -80,7 +80,7 @@ export function AIAssistant({ token, onNavigate }: Props) {
 
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-24 right-4 z-50 grid h-14 w-14 place-items-center rounded-lg bg-cyan text-ink shadow-glow"
+        className="fixed bottom-20 right-4 z-50 grid h-12 w-12 place-items-center rounded-lg bg-cyan text-ink shadow-glow xl:bottom-6"
         title="Open AI assistant"
       >
         <MessageCircle size={22} />

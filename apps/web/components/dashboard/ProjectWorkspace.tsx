@@ -48,7 +48,7 @@ export function ProjectWorkspace({
       <div className="absolute top-0 left-1/4 h-96 w-96 -translate-y-1/2 translate-x-1/2 rounded-full bg-cyan/20 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 h-64 w-64 translate-y-1/2 rounded-full bg-coral/10 blur-[100px] pointer-events-none" />
 
-      <section className="glass rounded-xl p-6 border border-white/10 shadow-2xl relative z-10 backdrop-blur-md overflow-hidden">
+      <section className="glass rounded-xl p-4 md:p-6 border border-white/10 shadow-2xl relative z-10 backdrop-blur-md overflow-hidden">
         {/* Subtle inner top glow */}
         <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan/50 to-transparent opacity-50" />
         
@@ -75,7 +75,7 @@ export function ProjectWorkspace({
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.3 }}
               >
-                <h2 className="text-4xl font-extrabold tracking-tight text-white/90 drop-shadow-sm">
+                  <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-white/90 drop-shadow-sm">
                   {currentProject?.name}
                 </h2>
                 <div className="mt-3 flex items-center gap-3 text-sm text-slate-300">
@@ -204,7 +204,7 @@ function Methodology({ project }: { project: any }) {
 function Team({ onNotify }: { onNotify?: (message: string) => void }) {
   const team = ["Principal investigator", "Hydrologist", "GIS analyst", "Emergency coordinator", "ML engineer", "Field supervisor"];
   return (
-    <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
       {team.map((member, index) => (
         <button key={member} onClick={() => onNotify?.(`${member} assigned to the active incident room.`)} className="flex items-center gap-3 rounded-lg border border-white/10 bg-white/[0.055] p-4 text-left hover:border-cyan/40">
           <div className="grid h-10 w-10 place-items-center rounded-lg bg-cyan/15 text-cyan">
@@ -253,7 +253,7 @@ function Timeline({ rows }: { rows: string[][] }) {
   return (
     <div className="space-y-4">
       {rows.map(([label, left, width]) => (
-        <div key={label} className="grid grid-cols-[9rem_1fr] items-center gap-3">
+          <div key={label} className="grid grid-cols-[7rem_1fr] md:grid-cols-[9rem_1fr] items-center gap-2 md:gap-3">
           <p className="text-sm text-slate-300">{label}</p>
           <div className="relative h-8 rounded-lg bg-white/[0.08]">
             <div className="absolute top-1 h-6 rounded-lg bg-cyan/70" style={{ left, width }} />

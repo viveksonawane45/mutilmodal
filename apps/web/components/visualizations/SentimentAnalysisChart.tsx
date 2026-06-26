@@ -17,7 +17,7 @@ export function SentimentAnalysisChart({ model }: { model: string }) {
   return (
     <div className="glass rounded-lg p-5">
       <h3 className="mb-4 text-sm font-semibold text-amber">Public Sentiment & Social Signals</h3>
-      <div className="h-56 w-full relative">
+      <div className="h-40 md:h-56 w-full relative">
         <ResponsiveContainer>
           <PieChart>
             <Tooltip contentStyle={{ background: "#10181f", border: "1px solid rgba(238,248,247,0.12)", borderRadius: 8 }} />

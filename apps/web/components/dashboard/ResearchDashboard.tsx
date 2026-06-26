@@ -46,7 +46,7 @@ export function ResearchDashboard({ search = "", onOpenView, onNotify, onSelectP
       </div>
 
       <div className="grid gap-5 xl:grid-cols-[1.35fr_0.65fr]">
-        <section className="glass rounded-xl p-6 border border-white/10 shadow-xl relative overflow-hidden backdrop-blur-md">
+        <section className="glass rounded-xl p-4 md:p-6 border border-white/10 shadow-xl relative overflow-hidden backdrop-blur-md">
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan/50 to-transparent opacity-50" />
           <div className="mb-4 flex items-center justify-between">
             <div>
@@ -95,7 +95,7 @@ export function ResearchDashboard({ search = "", onOpenView, onNotify, onSelectP
               </div>
             </motion.div>
           ) : (
-            <div className="grid gap-3 lg:grid-cols-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="grid gap-3 lg:grid-cols-2 max-h-[280px] md:max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
               {filteredEvents.map((event, i) => (
                 <motion.button 
                   key={event.id} 
@@ -125,7 +125,7 @@ export function ResearchDashboard({ search = "", onOpenView, onNotify, onSelectP
           )}
         </section>
 
-        <section className="glass rounded-xl p-6 border border-white/10 shadow-xl backdrop-blur-md">
+        <section className="glass rounded-xl p-4 md:p-6 border border-white/10 shadow-xl backdrop-blur-md">
           <div className="mb-4 flex items-center gap-3">
             <div className="grid h-8 w-8 place-items-center rounded bg-cyan/15">
               <RadioTower className="text-cyan animate-pulse" size={16} />

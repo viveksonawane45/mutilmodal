@@ -18,7 +18,7 @@ export function InfrastructureHealthChart({ model }: { model: string }) {
   return (
     <div className="glass rounded-lg p-5">
       <h3 className="mb-4 text-sm font-semibold text-cyan">Critical Infrastructure Health (%)</h3>
-      <div className="h-56 w-full">
+      <div className="h-40 md:h-56 w-full">
         <ResponsiveContainer>
           <BarChart data={data} layout="vertical" margin={{ top: 0, right: 10, left: 10, bottom: 0 }}>
             <CartesianGrid stroke="rgba(238,248,247,0.05)" horizontal={false} />

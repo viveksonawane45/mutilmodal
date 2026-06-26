@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Don't diff .env files
+.env linguist-generated
+.env.* linguist-generated

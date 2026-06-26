@@ -16,7 +16,7 @@ export function FinancialImpactChart({ model }: { model: string }) {
   return (
     <div className="glass rounded-lg p-5">
       <h3 className="mb-4 text-sm font-semibold text-moss">Estimated Financial Impact ($M)</h3>
-      <div className="h-56 w-full">
+      <div className="h-40 md:h-56 w-full">
         <ResponsiveContainer>
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>

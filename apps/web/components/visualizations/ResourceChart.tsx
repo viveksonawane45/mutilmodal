@@ -14,7 +14,7 @@ export function ResourceChart({ model = "Flood" }: { model?: string }) {
     }));
   }, [model]);
   return (
-    <div className="h-64 w-full">
+    <div className="h-48 md:h-64 w-full">
       <ResponsiveContainer>
         <BarChart data={dynamicData} margin={{ top: 12, right: 12, left: -18, bottom: 0 }}>
           <CartesianGrid stroke="rgba(238,248,247,0.09)" vertical={false} />

@@ -144,7 +144,7 @@ export function ResponseWorkspace({ onNotify }: { onNotify?: (message: string) =
         </div>
 
         {/* New Deploy Assets Panel */}
-        <div className="mt-5 grid grid-cols-2 gap-4">
+        <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="rounded-lg border border-white/10 bg-black/20 p-4 relative overflow-hidden">
              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-coral to-amber" />
              <h3 className="text-sm font-semibold mb-3">Live Asset Tracker</h3>

@@ -17,7 +17,7 @@ export function RiskChart({ model = "Flood" }: { model?: string }) {
   }, []);
 
   return (
-    <div className="h-72 w-full">
+    <div className="h-52 md:h-72 w-full">
       <ResponsiveContainer>
         <AreaChart data={data} margin={{ top: 12, right: 12, left: -18, bottom: 0 }}>
           <defs>

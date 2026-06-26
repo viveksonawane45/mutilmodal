@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, BarChart3, FileText, FlaskConical, LayoutDashboard, Map, Shield, Users, X } from "lucide-react";
+import { Activity, BarChart3, ChevronDown, FileText, FlaskConical, LayoutDashboard, Map, Shield, Users, X } from "lucide-react";
 import { AIAssistant } from "@/components/dashboard/AIAssistant";
 import { AnalysisDashboard } from "@/components/dashboard/AnalysisDashboard";
+import { ToastContainer } from "@/components/dashboard/Toast";
+import { useVoiceCommands } from "@/lib/use-voice-commands";
 import { AuthPanel } from "@/components/dashboard/AuthPanel";
 import { ProjectWorkspace } from "@/components/dashboard/ProjectWorkspace";
 import { ReportsWorkspace } from "@/components/dashboard/ReportsWorkspace";
@@ -32,8 +34,10 @@ export default function Home() {
   const [activeProjectId, setActiveProjectId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [panel, setPanel] = useState<"filters" | "controls" | null>(null);
+  const [mobilePanelOpen, setMobilePanelOpen] = useState(false);
   const [notice, setNotice] = useState("Ready for operations.");
   const { telemetry, connected } = useLiveTelemetry();
+  const { listening: voiceListening, toggle: toggleVoice, transcript } = useVoiceCommands((view) => { setActiveView(view); setNotice(`Voice: navigating to ${view}`); });
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -80,11 +84,11 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen p-4">
-      <div className="mx-auto flex max-w-[1900px] gap-4">
+    <main className="min-h-screen p-2 sm:p-4">
+      <div className="mx-auto flex max-w-[1900px] gap-2 sm:gap-4">
         <Sidebar activeView={activeView} onViewChange={setActiveView} role={role} />
 
-        <div className="min-w-0 flex-1 space-y-4 pb-24">
+        <div className="min-w-0 flex-1 space-y-3 sm:space-y-4 pb-28 md:pb-24">
           <TopBar
             role={role}
             connected={connected}
@@ -98,33 +102,59 @@ export default function Home() {
             onExport={exportReport}
           />
 
-          <div className="glass rounded-lg px-4 py-3 text-sm text-slate-300">{notice}</div>
+          <div className="glass rounded-lg px-4 py-3 text-sm text-slate-300 flex items-center gap-3">
+            <span className="flex-1">{notice}</span>
+            {voiceListening && (
+              <span className="flex items-center gap-1.5 text-coral text-xs shrink-0">
+                <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />
+                Voice active
+              </span>
+            )}
+            {transcript && !voiceListening && (
+              <span className="text-xs text-cyan/70 shrink-0">{transcript}</span>
+            )}
+          </div>
 
           <div className="grid gap-4 lg:grid-cols-[21rem_1fr] 2xl:grid-cols-[21rem_1fr]">
-            <div className="space-y-4">
+            {/* Mobile toggle for side panel */}
+            <button
+              onClick={() => setMobilePanelOpen((v) => !v)}
+              className="flex w-full items-center justify-between rounded-lg border border-white/10 bg-black/30 p-3 text-sm lg:hidden"
+            >
+              <span className="flex items-center gap-2">
+                <Activity size={16} className="text-cyan" />
+                Dashboard panel
+              </span>
+              <span className="flex items-center gap-2 text-xs text-slate-400">
+                {telemetry.riskIndex.toFixed(1)} risk · {telemetry.waterLevel.toFixed(1)}m
+                <ChevronDown size={14} className={`transition ${mobilePanelOpen ? "rotate-180" : ""}`} />
+              </span>
+            </button>
+
+            <div className={`space-y-4 ${mobilePanelOpen ? "block" : "hidden"} lg:block`}>
               {!token ? (
                 <AuthPanel selectedRole={role} onRoleChange={setRole} onLogin={login} />
               ) : (
-                <div className="glass rounded-lg p-5">
+                <div className="glass rounded-lg p-4 md:p-5">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="grid h-10 w-10 place-items-center rounded-lg bg-cyan/15 text-cyan">
+                    <div className="grid h-10 w-10 place-items-center rounded-lg bg-cyan/15 text-cyan shrink-0">
                       <Shield size={20} />
                     </div>
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-xs uppercase text-cyan/80">Secure access</p>
-                      <h3 className="font-semibold text-lg">Session Active</h3>
+                      <h3 className="font-semibold text-base md:text-lg truncate">Session Active</h3>
                     </div>
                   </div>
                   <p className="mt-4 text-sm text-slate-300">Authenticated as <span className="font-semibold text-white">{role.replace("_", " ")}</span></p>
                   <button onClick={() => { setToken(undefined); setNotice("Session ended."); }} className="mt-4 w-full rounded-lg border border-white/10 bg-white/[0.055] py-2 text-sm text-slate-300 hover:bg-white/[0.08] transition">End session</button>
                 </div>
               )}
-              <section className="glass rounded-lg p-5">
+              <section className="glass rounded-lg p-4 md:p-5">
                 <div className="mb-4 flex items-center gap-3">
-                  <Activity className="text-cyan" size={22} />
-                  <h2 className="text-lg font-semibold">Live telemetry</h2>
+                  <Activity className="text-cyan shrink-0" size={20} />
+                  <h2 className="text-base md:text-lg font-semibold">Live telemetry</h2>
                 </div>
-                <div className="grid grid-cols-2 gap-3 text-sm">
+                <div className="grid grid-cols-2 gap-2 md:gap-3 text-sm">
                   <Telemetry label="Risk" value={`${telemetry.riskIndex.toFixed(1)}`} />
                   <Telemetry label="Water m" value={`${telemetry.waterLevel.toFixed(1)}`} />
                   <Telemetry label="Magnitude" value={`${telemetry.seismicMagnitude.toFixed(1)}`} />
@@ -147,7 +177,7 @@ export default function Home() {
             </AnimatePresence>
           </div>
 
-          <nav className="glass sticky bottom-4 z-40 grid grid-cols-6 gap-1 rounded-lg p-2 xl:hidden">
+          <nav className="glass sticky bottom-2 z-40 grid grid-cols-6 gap-1 rounded-lg p-1.5 xl:hidden">
             {mobileNav.map((item) => {
               const Icon = item.icon;
               const selected = activeView === item.id;
@@ -156,10 +186,10 @@ export default function Home() {
                   key={item.id}
                   onClick={() => setActiveView(item.id)}
                   title={item.label}
-                  className={`grid min-h-14 place-items-center rounded-lg text-xs ${selected ? "bg-cyan text-ink" : "text-slate-300"}`}
+                  className={`grid min-h-12 place-items-center rounded-lg text-[10px] md:text-xs ${selected ? "bg-cyan text-ink" : "text-slate-300"}`}
                 >
-                  <Icon size={18} />
-                  <span className="mt-1 hidden sm:block">{item.label}</span>
+                  <Icon size={16} className="md:size-[18px]" />
+                  <span className="mt-0.5 hidden md:block">{item.label}</span>
                 </button>
               );
             })}
@@ -171,7 +201,8 @@ export default function Home() {
           if (projectId) setActiveProjectId(projectId);
         }} />
       </div>
-      {panel ? <UtilityPanel type={panel} onClose={() => setPanel(null)} onApply={(message) => setNotice(message)} /> : null}
+      {panel ? <UtilityPanel type={panel} onClose={() => setPanel(null)} onApply={(message) => setNotice(message)} voiceEnabled={voiceListening} onVoiceToggle={toggleVoice} /> : null}
+      <ToastContainer />
     </main>
   );
 }
@@ -185,11 +216,11 @@ function Telemetry({ label, value }: { label: string; value: string }) {
   );
 }
 
-function UtilityPanel({ type, onClose, onApply }: { type: "filters" | "controls"; onClose: () => void; onApply: (message: string) => void }) {
+function UtilityPanel({ type, onClose, onApply, voiceEnabled, onVoiceToggle }: { type: "filters" | "controls"; onClose: () => void; onApply: (message: string) => void; voiceEnabled?: boolean; onVoiceToggle?: () => void }) {
   const [threshold, setThreshold] = useState(76);
   const [region, setRegion] = useState("Pune");
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [voice, setVoice] = useState(false);
+  const [voice, setVoice] = useState(voiceEnabled ?? false);
 
   return (
     <div className="fixed inset-0 z-50 bg-black/55 p-4 backdrop-blur-sm">
@@ -227,8 +258,11 @@ function UtilityPanel({ type, onClose, onApply }: { type: "filters" | "controls"
               <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh((value) => !value)} className="h-5 w-5 accent-cyan" />
             </label>
             <label className="flex cursor-pointer items-center justify-between rounded-lg border border-white/10 bg-white/[0.055] p-3">
-              <span>Voice command standby</span>
-              <input type="checkbox" checked={voice} onChange={() => setVoice((value) => !value)} className="h-5 w-5 accent-cyan" />
+              <span className="flex items-center gap-2">
+                Voice command standby
+                {voice && <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />}
+              </span>
+              <input type="checkbox" checked={voice} onChange={() => { setVoice((value) => !value); onVoiceToggle?.(); }} className="h-5 w-5 accent-cyan" />
             </label>
           </div>
         )}

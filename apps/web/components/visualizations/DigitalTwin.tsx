@@ -6,7 +6,7 @@ import { Suspense } from "react";
 
 export function DigitalTwin() {
   return (
-    <div className="h-[360px] overflow-hidden rounded-lg border border-white/10 bg-black/30">
+    <div className="h-[250px] md:h-[360px] overflow-hidden rounded-lg border border-white/10 bg-black/30">
       <Canvas>
         <Suspense fallback={null}>
           <PerspectiveCamera makeDefault position={[4, 3.2, 5.5]} />
