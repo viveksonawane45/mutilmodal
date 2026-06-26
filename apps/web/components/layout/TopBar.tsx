@@ -1,88 +1,107 @@
 "use client";
 
-import { Download, Filter, Moon, Radio, Search, SlidersHorizontal, Sun } from "lucide-react";
+import {
+  ArrowLeft, Download, Filter, Moon, Radio, Search, Settings, SlidersHorizontal, Sun, User
+} from "lucide-react";
 import { useTheme } from "@/lib/theme-provider";
-import type { UserRole } from "@/lib/types";
 
 type Props = {
-  role: UserRole;
+  role: string;
   connected: boolean;
   search: string;
   onSearchChange: (value: string) => void;
   onOpenFilters: () => void;
   onOpenControls: () => void;
   onExport: () => void;
+  onNavigate: (view: string) => void;
+  activeView: string;
 };
 
-export function TopBar({ role, connected, search, onSearchChange, onOpenFilters, onOpenControls, onExport }: Props) {
+const viewTitles: Record<string, string> = {
+  dashboard: "Dashboard",
+  projects: "Projects",
+  analysis: "Data Analysis",
+  reports: "Reports",
+  response: "Response Operations",
+  map: "Live Map",
+  profile: "Profile",
+  settings: "Settings",
+  incidents: "Incident Center",
+  resources: "Resource Center",
+};
+
+export function TopBar({ role, connected, search, onSearchChange, onOpenFilters, onOpenControls, onExport, onNavigate, activeView }: Props) {
   const { theme, toggle } = useTheme();
+  const isMainView = ["dashboard", "projects", "analysis", "reports", "response", "map"].includes(activeView);
+  const isNested = !isMainView;
+
   return (
-    <header className="glass relative md:sticky md:top-4 z-30 flex flex-col gap-3 rounded-xl p-3 md:p-4 shadow-xl overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-cyan/5 via-transparent to-transparent pointer-events-none" />
-      
-      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between w-full relative z-10">
-        <div className="flex items-start justify-between md:justify-start gap-4 w-full md:w-auto">
-          <div>
-            <div className="flex items-center gap-1.5 text-[10px] md:text-xs uppercase text-cyan/80">
+    <header className="glass relative md:sticky md:top-4 z-30 rounded-2xl px-4 py-3 md:px-5 md:py-3.5 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-cyan/[0.03] via-transparent to-transparent pointer-events-none" />
+
+      <div className="relative flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          {isNested && (
+            <button onClick={() => onNavigate("dashboard")} className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-subtle hover:bg-hover transition">
+              <ArrowLeft size={15} className="text-themed" />
+            </button>
+          )}
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 text-[10px] md:text-xs uppercase tracking-wider text-cyan/80">
               <Radio size={connected ? 12 : 14} className={connected ? "animate-pulse" : ""} />
-              {connected ? "Live operations stream" : "Demo stream"}
+              {connected ? "Live operations" : "Demo mode"}
             </div>
-            <h1 className="mt-0.5 text-lg font-semibold sm:text-xl md:text-2xl lg:text-3xl tracking-tight">
-              Multimodal disaster intelligence
+            <h1 className="text-base md:text-xl font-bold tracking-tight truncate">
+              {viewTitles[activeView] || "Dashboard"}
             </h1>
           </div>
-          <span className="md:hidden self-center rounded-lg border-themed bg-medium px-2 py-1 text-[10px] uppercase text-themed whitespace-nowrap">
-            {role.replace("_", " ")}
-          </span>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 md:gap-3 w-full md:w-auto">
-          <div className="flex h-9 md:h-10 flex-1 md:flex-none min-w-[140px] md:min-w-64 items-center gap-2 rounded-lg border-themed bg-medium px-2.5 md:px-3 focus-within:border-cyan/50 focus-within:shadow-[0_0_15px_rgba(80,227,214,0.15)] transition">
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <div className="hidden md:flex h-9 items-center gap-2 rounded-xl border-themed bg-input px-3 min-w-[200px] focus-within:border-cyan/50 transition">
             <Search size={14} className="text-themed-dim shrink-0" />
             <input
               value={search}
-              onChange={(event) => onSearchChange(event.target.value)}
-              className="w-full bg-transparent text-xs md:text-sm outline-none placeholder:text-themed-dim"
-              placeholder="Search projects..."
+              onChange={(e) => {
+                onSearchChange(e.target.value);
+                if (isNested) onNavigate("dashboard");
+              }}
+              className="w-full bg-transparent text-sm outline-none placeholder:text-themed-dim"
+              placeholder="Search..."
             />
           </div>
-          
-          <button 
-            onClick={onOpenFilters} 
-            className="grid h-9 w-9 md:h-10 md:w-10 place-items-center rounded-lg border-themed bg-medium text-themed hover:bg-hover transition shrink-0" 
-            title="Filters"
-          >
+
+          <button onClick={onOpenFilters} className="grid h-9 w-9 place-items-center rounded-xl border-themed bg-subtle text-themed-dim hover:text-themed hover:bg-hover transition shrink-0" title="Filters">
             <Filter size={15} />
           </button>
-          
-          <button 
-            onClick={onOpenControls} 
-            className="grid h-9 w-9 md:h-10 md:w-10 place-items-center rounded-lg border-themed bg-medium text-themed hover:bg-hover transition shrink-0" 
-            title="Controls"
-          >
+          <button onClick={onOpenControls} className="grid h-9 w-9 place-items-center rounded-xl border-themed bg-subtle text-themed-dim hover:text-themed hover:bg-hover transition shrink-0" title="Controls">
             <SlidersHorizontal size={15} />
           </button>
-
-          <button 
-            onClick={toggle} 
-            className="grid h-9 w-9 md:h-10 md:w-10 place-items-center rounded-lg border-themed bg-medium text-themed hover:bg-hover transition shrink-0"
-            title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}
-          >
+          <button onClick={toggle} className="grid h-9 w-9 place-items-center rounded-xl border-themed bg-subtle text-themed-dim hover:text-themed hover:bg-hover transition shrink-0" title={`Switch to ${theme === "dark" ? "light" : "dark"} theme`}>
             {theme === "dark" ? <Sun size={15} /> : <Moon size={15} />}
           </button>
-
-          <button 
-            onClick={onExport} 
-            className="flex h-9 md:h-10 items-center justify-center gap-1.5 md:gap-2 rounded-lg bg-cyan px-3 md:px-4 text-xs md:text-sm font-semibold text-ink shadow-glow hover:bg-cyan/90 transition shrink-0"
-            title="Export Operations Report"
-          >
-            <Download size={15} />
-            <span className="hidden sm:inline">Export</span>
+          <button onClick={onExport} className="flex h-9 items-center justify-center gap-1.5 rounded-xl bg-cyan px-3.5 text-sm font-semibold text-ink shadow-glow hover:bg-cyan/90 transition shrink-0" title="Export Report">
+            <Download size={14} />
+            <span className="hidden sm:inline text-xs">Export</span>
           </button>
-          
-          <span className="hidden md:inline rounded-lg border-themed bg-medium px-3 py-2 text-xs uppercase text-themed whitespace-nowrap">
-            {role.replace("_", " ")}
-          </span>
+          <button onClick={() => onNavigate("profile")} className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan/15 to-violet/15 text-cyan font-semibold text-xs shrink-0" title="Profile">
+            <User size={15} />
+          </button>
+        </div>
+      </div>
+
+      <div className="md:hidden relative mt-2">
+        <div className="flex h-9 items-center gap-2 rounded-xl border-themed bg-input px-3 focus-within:border-cyan/50 transition">
+          <Search size={14} className="text-themed-dim shrink-0" />
+          <input
+            value={search}
+            onChange={(e) => {
+              onSearchChange(e.target.value);
+              if (isNested) onNavigate("dashboard");
+            }}
+            className="w-full bg-transparent text-sm outline-none placeholder:text-themed-dim"
+            placeholder="Search..."
+          />
         </div>
       </div>
     </header>

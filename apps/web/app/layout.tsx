@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,8 +12,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{
-          __html: `
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`
             (function() {
               try {
                 var theme = localStorage.getItem('disasterscope-theme');
@@ -23,8 +24,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 }
               } catch(e) {}
             })();
-          `
-        }} />
+          `}
+        </Script>
       </head>
       <body>{children}</body>
     </html>

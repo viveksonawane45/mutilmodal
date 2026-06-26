@@ -12,7 +12,10 @@ const config: Config = {
         cyan: "var(--color-cyan)",
         amber: "var(--color-amber)",
         coral: "var(--color-coral)",
-        moss: "var(--color-moss)"
+        moss: "var(--color-moss)",
+        violet: "var(--color-violet)",
+        blue: "var(--color-blue)",
+        rose: "var(--color-rose)"
       },
       backgroundColor: {
         base: "var(--bg-base)",

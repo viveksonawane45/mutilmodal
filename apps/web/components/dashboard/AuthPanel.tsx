@@ -18,13 +18,13 @@ const roles: { id: UserRole; title: string; copy: string }[] = [
 
 export function AuthPanel({ selectedRole, onRoleChange, onLogin }: Props) {
   return (
-    <section className="glass rounded-lg p-5">
+    <section className="glass rounded-xl p-5">
       <div className="mb-5 flex items-center justify-between">
         <div>
-          <p className="text-xs uppercase text-cyan/80">Secure access</p>
-          <h2 className="text-xl font-semibold">Authentication</h2>
+          <p className="text-xs uppercase font-semibold text-cyan/80">Secure access</p>
+          <h2 className="text-lg md:text-xl font-bold">Authentication</h2>
         </div>
-        <div className="grid h-10 w-10 place-items-center rounded-lg bg-cyan/15 text-cyan">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-cyan/12 text-cyan">
           <Lock size={20} />
         </div>
       </div>
@@ -36,14 +36,16 @@ export function AuthPanel({ selectedRole, onRoleChange, onLogin }: Props) {
             <button
               key={role.id}
               onClick={() => onRoleChange(role.id)}
-              className="relative rounded-lg border border-white/10 p-3 text-left transition hover:bg-white/[0.08]"
+              className="relative rounded-xl border-themed bg-item p-3 text-left transition hover:bg-hover"
             >
-              {selected ? <motion.span layoutId="role-select" className="absolute inset-0 rounded-lg border border-cyan/60 bg-cyan/10" /> : null}
+              {selected ? (
+                <motion.span layoutId="role-select" className="absolute inset-0 rounded-xl border border-cyan/50 bg-cyan/8" />
+              ) : null}
               <span className="relative flex items-center gap-3">
-                <ShieldCheck size={18} className={selected ? "text-cyan" : "text-slate-400"} />
+                <ShieldCheck size={18} className={selected ? "text-cyan" : "text-themed-dim"} />
                 <span>
                   <span className="block text-sm font-semibold">{role.title}</span>
-                  <span className="text-xs text-slate-400">{role.copy}</span>
+                  <span className="text-xs text-themed-dim">{role.copy}</span>
                 </span>
               </span>
             </button>
@@ -51,7 +53,10 @@ export function AuthPanel({ selectedRole, onRoleChange, onLogin }: Props) {
         })}
       </div>
 
-      <button onClick={onLogin} className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-cyan py-3 text-sm font-semibold text-ink shadow-glow hover:bg-cyan/90">
+      <button
+        onClick={onLogin}
+        className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-cyan py-3 text-sm font-semibold text-ink shadow-glow hover:bg-cyan/90 transition"
+      >
         <UserPlus size={18} />
         Start secure session
       </button>

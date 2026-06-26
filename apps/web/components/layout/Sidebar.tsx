@@ -1,79 +1,124 @@
 "use client";
 
-import { Activity, BarChart3, Bell, FileText, FlaskConical, LayoutDashboard, Map, Shield, Users } from "lucide-react";
 import { motion } from "framer-motion";
-import type { UserRole } from "@/lib/types";
+import {
+  Activity, AlertTriangle, BarChart3, Bell, FileText, FlaskConical,
+  LayoutDashboard, Map, Package, Settings, User, Users
+} from "lucide-react";
+import type { ViewType } from "@/lib/types";
 
 type Props = {
   activeView: string;
   onViewChange: (view: string) => void;
-  role: UserRole;
+  role: string;
 };
 
-const nav = [
-  { id: "dashboard", label: "Research Home", icon: LayoutDashboard },
-  { id: "projects", label: "Projects", icon: FlaskConical },
-  { id: "analysis", label: "Data Analysis", icon: BarChart3 },
-  { id: "reports", label: "Reports", icon: FileText },
-  { id: "response", label: "Response Ops", icon: Users },
-  { id: "map", label: "Live Map", icon: Map }
+type NavItem = {
+  id: ViewType;
+  label: string;
+  icon: React.ElementType;
+  color: string;
+  section: "main" | "management" | "account";
+};
+
+const navItems: NavItem[] = [
+  { id: "dashboard", label: "Dashboard", icon: LayoutDashboard, color: "text-cyan", section: "main" },
+  { id: "projects", label: "Projects", icon: FlaskConical, color: "text-violet", section: "main" },
+  { id: "analysis", label: "Analysis", icon: BarChart3, color: "text-blue", section: "main" },
+  { id: "reports", label: "Reports", icon: FileText, color: "text-amber", section: "main" },
+  { id: "response", label: "Response", icon: Users, color: "text-coral", section: "main" },
+  { id: "map", label: "Live Map", icon: Map, color: "text-moss", section: "main" },
+  { id: "incidents", label: "Incidents", icon: AlertTriangle, color: "text-rose", section: "management" },
+  { id: "resources", label: "Resources", icon: Package, color: "text-cyan", section: "management" },
+  { id: "profile", label: "Profile", icon: User, color: "text-blue", section: "account" },
+  { id: "settings", label: "Settings", icon: Settings, color: "text-themed-dim", section: "account" },
 ];
+
+const sectionLabels: Record<string, string> = {
+  main: "Main",
+  management: "Operations",
+  account: "Account",
+};
 
 export function Sidebar({ activeView, onViewChange, role }: Props) {
   return (
-    <aside className="glass sticky top-4 hidden h-[calc(100vh-2rem)] w-72 shrink-0 rounded-xl p-4 xl:block shadow-2xl relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan/5 to-transparent pointer-events-none" />
-      <div className="mb-7 flex items-center gap-3">
-        <div className="grid h-11 w-11 place-items-center rounded-lg bg-cyan/15 text-cyan shadow-glow">
-          <Activity size={24} />
+    <aside className="glass sticky top-4 hidden h-[calc(100vh-2rem)] w-64 shrink-0 rounded-2xl p-4 xl:flex xl:flex-col relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-cyan/[0.04] to-transparent pointer-events-none" />
+
+      <div className="relative mb-6 flex items-center gap-3">
+        <div className="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-cyan/20 to-violet/20 text-cyan shadow-glow">
+          <Activity size={22} />
         </div>
         <div>
-          <p className="text-lg font-semibold">DisasterScope</p>
-          <p className="text-xs uppercase text-cyan/80">{role.replace("_", " ")}</p>
+          <p className="text-base font-bold tracking-tight">DisasterScope</p>
+          <p className="text-[10px] uppercase tracking-wider text-cyan/80 font-medium">{role.replace("_", " ")}</p>
         </div>
       </div>
 
-      <nav className="space-y-2">
-        {nav.map((item) => {
-          const Icon = item.icon;
-          const selected = activeView === item.id;
-          return (
-            <button
-              key={item.id}
-              className={`relative flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition group ${selected ? 'text-cyan font-medium' : 'text-themed hover:text'}`}
-              onClick={() => onViewChange(item.id)}
-              title={item.label}
-            >
-              {selected ? (
-                <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-lg bg-cyan/15 border border-cyan/30 shadow-[0_0_15px_rgba(80,227,214,0.15)]" />
-              ) : (
-                <span className="absolute inset-0 rounded-lg bg-transparent group-hover:bg-hover transition" />
-              )}
-              <Icon className="relative" size={18} />
-              <span className="relative">{item.label}</span>
-            </button>
-          );
-        })}
-      </nav>
-
-      <div className="mt-8 rounded-lg border border-amber/30 bg-amber/10 p-4 shadow-[0_0_20px_rgba(245,158,11,0.05)] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-1 h-full bg-amber/50" />
-        <div className="mb-2 flex items-center gap-2 text-amber font-semibold">
-          <Shield size={18} className="animate-pulse" />
-          <span className="text-sm">Trust Layer</span>
+      {(["main", "management", "account"] as const).map((section) => (
+        <div key={section} className="relative mb-3 last:mb-0">
+          <p className="mb-1.5 px-3 text-[10px] uppercase tracking-widest text-themed-dim font-semibold">
+            {sectionLabels[section]}
+          </p>
+          <nav className="space-y-0.5">
+            {navItems
+              .filter((item) => item.section === section)
+              .map((item) => {
+                const Icon = item.icon;
+                const selected = activeView === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    onClick={() => onViewChange(item.id)}
+                    className={`relative flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-sm transition group ${
+                      selected ? "bg-subtle" : "hover:bg-subtle"
+                    }`}
+                  >
+                    {selected && (
+                      <motion.div
+                        layoutId="nav-indicator"
+                        className="absolute left-0 top-1/2 -translate-y-1/2 h-5 w-0.5 rounded-full bg-cyan shadow-[0_0_8px_rgba(80,227,214,0.5)]"
+                      />
+                    )}
+                    <Icon
+                      size={17}
+                      className={`shrink-0 transition ${
+                        selected ? item.color : "text-themed-dim group-hover:text-themed"
+                      }`}
+                    />
+                    <span
+                      className={`transition ${
+                        selected ? "font-medium" : "text-themed"
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                    {item.id === "incidents" && (
+                      <span className="ml-auto rounded-full bg-coral/12 px-2 py-0.5 text-[10px] font-medium text-coral">
+                        8
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+          </nav>
         </div>
-        <p className="text-xs leading-5 text-amber/70">
-          JWT, RBAC, encrypted secrets, rate limiting, and immutable audit-ready event trails.
-        </p>
+      ))}
+
+      <div className="mt-auto relative pt-3 border-t border-themed/50">
+        <button
+          onClick={() => onViewChange("response")}
+          className="flex w-full items-center gap-3 rounded-xl bg-coral/8 p-3 hover:bg-coral/12 transition text-left"
+        >
+          <div className="grid h-8 w-8 place-items-center rounded-lg bg-coral/12">
+            <Bell size={16} className="text-coral animate-pulse" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-sm font-medium">37 alerts</p>
+            <p className="text-[11px] text-coral/70">8 need review</p>
+          </div>
+        </button>
       </div>
-
-      <button onClick={() => onViewChange("response")} className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-lg border-themed bg-medium p-3 hover:border-cyan/40 transition w-[calc(100%-2rem)] text-left">
-        <Bell size={18} className="text-coral" />
-        <div>
-          <p className="text-sm font-medium">37 alerts active</p>
-          <p className="text-xs text-themed-dim">8 require manager review</p>
-        </div>
-      </button>
     </aside>
   );
 }
