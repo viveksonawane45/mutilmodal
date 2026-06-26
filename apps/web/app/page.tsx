@@ -6,6 +6,7 @@ import { Activity, BarChart3, ChevronDown, FileText, FlaskConical, LayoutDashboa
 import { AIAssistant } from "@/components/dashboard/AIAssistant";
 import { AnalysisDashboard } from "@/components/dashboard/AnalysisDashboard";
 import { ToastContainer } from "@/components/dashboard/Toast";
+import { ThemeProvider } from "@/lib/theme-provider";
 import { useVoiceCommands } from "@/lib/use-voice-commands";
 import { AuthPanel } from "@/components/dashboard/AuthPanel";
 import { ProjectWorkspace } from "@/components/dashboard/ProjectWorkspace";
@@ -28,6 +29,10 @@ const mobileNav = [
 ];
 
 export default function Home() {
+  return <ThemeProvider><HomeInner /></ThemeProvider>;
+}
+
+function HomeInner() {
   const [role, setRole] = useState<UserRole>("emergency_manager");
   const [token, setToken] = useState<string>();
   const [activeView, setActiveView] = useState("dashboard");
@@ -102,7 +107,7 @@ export default function Home() {
             onExport={exportReport}
           />
 
-          <div className="glass rounded-lg px-4 py-3 text-sm text-slate-300 flex items-center gap-3">
+          <div className="glass rounded-lg px-4 py-3 text-sm text-themed flex items-center gap-3">
             <span className="flex-1">{notice}</span>
             {voiceListening && (
               <span className="flex items-center gap-1.5 text-coral text-xs shrink-0">
@@ -119,13 +124,13 @@ export default function Home() {
             {/* Mobile toggle for side panel */}
             <button
               onClick={() => setMobilePanelOpen((v) => !v)}
-              className="flex w-full items-center justify-between rounded-lg border border-white/10 bg-black/30 p-3 text-sm lg:hidden"
+              className="flex w-full items-center justify-between rounded-lg border-themed bg-input p-3 text-sm lg:hidden"
             >
               <span className="flex items-center gap-2">
                 <Activity size={16} className="text-cyan" />
                 Dashboard panel
               </span>
-              <span className="flex items-center gap-2 text-xs text-slate-400">
+              <span className="flex items-center gap-2 text-xs text-themed-dim">
                 {telemetry.riskIndex.toFixed(1)} risk · {telemetry.waterLevel.toFixed(1)}m
                 <ChevronDown size={14} className={`transition ${mobilePanelOpen ? "rotate-180" : ""}`} />
               </span>
@@ -145,8 +150,8 @@ export default function Home() {
                       <h3 className="font-semibold text-base md:text-lg truncate">Session Active</h3>
                     </div>
                   </div>
-                  <p className="mt-4 text-sm text-slate-300">Authenticated as <span className="font-semibold text-white">{role.replace("_", " ")}</span></p>
-                  <button onClick={() => { setToken(undefined); setNotice("Session ended."); }} className="mt-4 w-full rounded-lg border border-white/10 bg-white/[0.055] py-2 text-sm text-slate-300 hover:bg-white/[0.08] transition">End session</button>
+                  <p className="mt-4 text-sm text-themed">Authenticated as <span className="font-semibold">{role.replace("_", " ")}</span></p>
+                  <button onClick={() => { setToken(undefined); setNotice("Session ended."); }} className="mt-4 w-full rounded-lg border-themed bg-subtle py-2 text-sm text-themed hover:bg-hover transition">End session</button>
                 </div>
               )}
               <section className="glass rounded-lg p-4 md:p-5">
@@ -186,7 +191,7 @@ export default function Home() {
                   key={item.id}
                   onClick={() => setActiveView(item.id)}
                   title={item.label}
-                  className={`grid min-h-12 place-items-center rounded-lg text-[10px] md:text-xs ${selected ? "bg-cyan text-ink" : "text-slate-300"}`}
+                  className={`grid min-h-12 place-items-center rounded-lg text-[10px] md:text-xs ${selected ? "bg-cyan text-ink" : "text-themed"}`}
                 >
                   <Icon size={16} className="md:size-[18px]" />
                   <span className="mt-0.5 hidden md:block">{item.label}</span>
@@ -209,8 +214,8 @@ export default function Home() {
 
 function Telemetry({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.055] p-3">
-      <p className="text-xs text-slate-400">{label}</p>
+    <div className="rounded-lg border-themed bg-subtle p-3">
+      <p className="text-xs text-themed-dim">{label}</p>
       <p className="mt-1 text-2xl font-semibold">{value}</p>
     </div>
   );
@@ -230,7 +235,7 @@ function UtilityPanel({ type, onClose, onApply, voiceEnabled, onVoiceToggle }: {
             <p className="text-xs uppercase text-cyan/80">{type === "filters" ? "Data filters" : "Operations controls"}</p>
             <h2 className="text-xl font-semibold">{type === "filters" ? "Refine dashboard data" : "Realtime settings"}</h2>
           </div>
-          <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-lg bg-white/[0.08]" title="Close panel">
+          <button onClick={onClose} className="grid h-10 w-10 place-items-center rounded-lg bg-medium" title="Close panel">
             <X size={18} />
           </button>
         </div>
@@ -238,8 +243,8 @@ function UtilityPanel({ type, onClose, onApply, voiceEnabled, onVoiceToggle }: {
         {type === "filters" ? (
           <div className="space-y-4">
             <label className="block">
-              <span className="mb-2 block text-sm text-slate-300">Region</span>
-              <select value={region} onChange={(event) => setRegion(event.target.value)} className="w-full rounded-lg border border-white/10 bg-black/25 p-3 outline-none focus:border-cyan/50">
+              <span className="mb-2 block text-sm text-themed">Region</span>
+              <select value={region} onChange={(event) => setRegion(event.target.value)} className="w-full rounded-lg border-themed bg-input p-3 outline-none focus:border-cyan/50">
                 <option>Pune</option>
                 <option>San Francisco</option>
                 <option>NSW</option>
@@ -247,17 +252,17 @@ function UtilityPanel({ type, onClose, onApply, voiceEnabled, onVoiceToggle }: {
               </select>
             </label>
             <label className="block">
-              <span className="mb-2 block text-sm text-slate-300">Minimum risk score: {threshold}</span>
+              <span className="mb-2 block text-sm text-themed">Minimum risk score: {threshold}</span>
               <input type="range" min="0" max="100" value={threshold} onChange={(event) => setThreshold(Number(event.target.value))} className="w-full accent-cyan" />
             </label>
           </div>
         ) : (
           <div className="space-y-3">
-            <label className="flex cursor-pointer items-center justify-between rounded-lg border border-white/10 bg-white/[0.055] p-3">
+            <label className="flex cursor-pointer items-center justify-between rounded-lg border-themed bg-subtle p-3">
               <span>Auto-refresh live telemetry</span>
               <input type="checkbox" checked={autoRefresh} onChange={() => setAutoRefresh((value) => !value)} className="h-5 w-5 accent-cyan" />
             </label>
-            <label className="flex cursor-pointer items-center justify-between rounded-lg border border-white/10 bg-white/[0.055] p-3">
+            <label className="flex cursor-pointer items-center justify-between rounded-lg border-themed bg-subtle p-3">
               <span className="flex items-center gap-2">
                 Voice command standby
                 {voice && <span className="w-2 h-2 rounded-full bg-coral animate-pulse" />}

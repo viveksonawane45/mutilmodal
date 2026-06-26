@@ -21,14 +21,14 @@ const nav = [
 
 export function Sidebar({ activeView, onViewChange, role }: Props) {
   return (
-    <aside className="glass sticky top-4 hidden h-[calc(100vh-2rem)] w-72 shrink-0 rounded-xl p-4 xl:block border border-white/10 backdrop-blur-xl bg-black/40 shadow-2xl relative overflow-hidden">
+    <aside className="glass sticky top-4 hidden h-[calc(100vh-2rem)] w-72 shrink-0 rounded-xl p-4 xl:block shadow-2xl relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-cyan/5 to-transparent pointer-events-none" />
       <div className="mb-7 flex items-center gap-3">
         <div className="grid h-11 w-11 place-items-center rounded-lg bg-cyan/15 text-cyan shadow-glow">
           <Activity size={24} />
         </div>
         <div>
-          <p className="text-lg font-semibold tracking-normal">DisasterScope</p>
+          <p className="text-lg font-semibold">DisasterScope</p>
           <p className="text-xs uppercase text-cyan/80">{role.replace("_", " ")}</p>
         </div>
       </div>
@@ -40,14 +40,14 @@ export function Sidebar({ activeView, onViewChange, role }: Props) {
           return (
             <button
               key={item.id}
-              className={`relative flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition group ${selected ? 'text-cyan font-medium' : 'text-slate-300 hover:text-white'}`}
+              className={`relative flex w-full items-center gap-3 rounded-lg px-3 py-3 text-left text-sm transition group ${selected ? 'text-cyan font-medium' : 'text-themed hover:text'}`}
               onClick={() => onViewChange(item.id)}
               title={item.label}
             >
               {selected ? (
                 <motion.span layoutId="nav-pill" className="absolute inset-0 rounded-lg bg-cyan/15 border border-cyan/30 shadow-[0_0_15px_rgba(80,227,214,0.15)]" />
               ) : (
-                <span className="absolute inset-0 rounded-lg bg-white/0 group-hover:bg-white/[0.08] transition" />
+                <span className="absolute inset-0 rounded-lg bg-transparent group-hover:bg-hover transition" />
               )}
               <Icon className="relative" size={18} />
               <span className="relative">{item.label}</span>
@@ -67,11 +67,11 @@ export function Sidebar({ activeView, onViewChange, role }: Props) {
         </p>
       </div>
 
-      <button onClick={() => onViewChange("response")} className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-lg border border-white/10 bg-black/20 p-3 hover:border-cyan/40 transition w-[calc(100%-2rem)] text-left">
+      <button onClick={() => onViewChange("response")} className="absolute bottom-4 left-4 right-4 flex items-center gap-3 rounded-lg border-themed bg-medium p-3 hover:border-cyan/40 transition w-[calc(100%-2rem)] text-left">
         <Bell size={18} className="text-coral" />
         <div>
           <p className="text-sm font-medium">37 alerts active</p>
-          <p className="text-xs text-slate-400">8 require manager review</p>
+          <p className="text-xs text-themed-dim">8 require manager review</p>
         </div>
       </button>
     </aside>

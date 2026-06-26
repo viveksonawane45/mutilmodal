@@ -1,21 +1,36 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  darkMode: "class",
   content: ["./app/**/*.{js,ts,jsx,tsx,mdx}", "./components/**/*.{js,ts,jsx,tsx,mdx}", "./lib/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
-        ink: "#081014",
-        night: "#10181f",
-        panel: "rgba(16, 24, 31, 0.72)",
-        cyan: "#50e3d6",
-        amber: "#f4b860",
-        coral: "#ff6f61",
-        moss: "#88c060"
+        ink: "var(--color-ink)",
+        night: "var(--color-night)",
+        panel: "var(--color-panel)",
+        cyan: "var(--color-cyan)",
+        amber: "var(--color-amber)",
+        coral: "var(--color-coral)",
+        moss: "var(--color-moss)"
+      },
+      backgroundColor: {
+        base: "var(--bg-base)",
+        surface: "var(--bg-surface)",
+        elevated: "var(--bg-elevated)",
+      },
+      textColor: {
+        base: "var(--text-base)",
+        muted: "var(--text-muted)",
+        dim: "var(--text-dim)",
+      },
+      borderColor: {
+        subtle: "var(--border-subtle)",
       },
       boxShadow: {
-        glow: "0 0 40px rgba(80, 227, 214, 0.18)",
-        amber: "0 0 28px rgba(244, 184, 96, 0.22)"
+        glow: "var(--shadow-glow)",
+        amber: "var(--shadow-amber)",
+        card: "var(--shadow-card)",
       },
       fontFamily: {
         sans: ["Inter", "ui-sans-serif", "system-ui"]
